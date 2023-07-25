@@ -1,0 +1,44 @@
+version: '3'
+
+volumes:
+  cats_pg_data:
+  static:
+
+services:
+  db:
+    container_name: cats_db
+    image: postgres:13.0-alpine
+    env_file: .env
+    volumes:
+      - cats_pg_data:/var/lib/postgresql/data
+    restart: always
+
+  backend:
+    container_name: cats_backend
+    image: yois4101/cats_backend:latest
+    volumes:
+      - static:/backend_static
+    env_file: .env
+    depends_on:
+      - db
+    restart: always
+    command: >
+      bash -c "python manage.py migrate &&
+      python manage.py collectstatic --noinput &&
+      gunicorn --bind 0:8000 kittygram_backend.wsgi"
+
+  frontend:
+    container_name: cats_frontend
+    image: yois4101/cats_frontend:latest
+    volumes:
+      - static:/frontend_static
+    env_file: .env
+    command: cp -r /app/build/. /frontend_static/
+
+  gateway:
+    container_name: cats_gateway
+    image: yois4101/cats_gateway:latest
+    volumes:
+      - static:/staticfiles/
+    ports:
+      - 9000:80 
