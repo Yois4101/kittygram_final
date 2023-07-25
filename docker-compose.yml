@@ -15,7 +15,7 @@ services:
 
   backend:
     container_name: cats_backend
-    image: yois4101/cats_backend:latest
+    build: ./backend
     volumes:
       - static:/backend_static
     env_file: .env
@@ -29,7 +29,7 @@ services:
 
   frontend:
     container_name: cats_frontend
-    image: yois4101/cats_frontend:latest
+    build: ./frontend
     volumes:
       - static:/frontend_static
     env_file: .env
