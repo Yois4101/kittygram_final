@@ -18,6 +18,7 @@ services:
     image: yois4101/cats_backend:latest
     volumes:
       - static:/app/static/
+      - static:/app/media/
     env_file: .env
     depends_on:
       - db
