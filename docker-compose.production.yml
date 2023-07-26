@@ -31,15 +31,14 @@ services:
   frontend:
     container_name: cats_frontend
     image: yois4101/cats_frontend:latest
+    command: cp -r /app/build/. /static/
     volumes:
-      - static:/frontend_static
-    env_file: .env
-    command: cp -r /app/build/. /frontend_static/
-
+      - static:/static
+  
   nginx:
     container_name: cats_gateway
     image: yois4101/cats_gateway:latest
     volumes:
-      - static:/staticfiles/
+      - static:/static
     ports:
-      - 9000:80 
+      - 9000:80
