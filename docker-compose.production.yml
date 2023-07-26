@@ -25,7 +25,7 @@ services:
     command: >
       bash -c "python manage.py migrate &&
       python manage.py collectstatic --noinput &&
-      gunicorn --bind 0:8000 kittygram_backend.wsgi"
+      gunicorn --bind 0:8008 kittygram_backend.wsgi"
 
   frontend:
     container_name: cats_frontend
