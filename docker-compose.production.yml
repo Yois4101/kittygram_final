@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 volumes:
   cats_pg_data:
@@ -32,9 +32,10 @@ services:
   frontend:
     container_name: cats_frontend
     image: yois4101/kittygram_frontend:latest
-    command: cp -r /app/build/. /frontend_static/
     volumes:
       - static:/frontend_static
+    env_file: .env
+    command: cp -r /app/build/. /frontend_static/
   
   nginx:
     container_name: cats_gateway
@@ -46,3 +47,4 @@ services:
       - 9000:80
     depends_on:
       - backend
+    restart: always
