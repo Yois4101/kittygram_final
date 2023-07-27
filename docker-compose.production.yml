@@ -16,7 +16,7 @@ services:
 
   backend:
     container_name: cats_backend
-    image: yois4101/cats_backend:latest
+    image: yois4101/kittygram_backend:latest
     volumes:
       - static:/app/static
       - media:/app/media
@@ -31,14 +31,14 @@ services:
 
   frontend:
     container_name: cats_frontend
-    image: yois4101/cats_frontend:latest
+    image: yois4101/kittygram_frontend:latest
     command: cp -r /app/build/. /frontend_static/
     volumes:
       - static:/frontend_static
   
   nginx:
     container_name: cats_gateway
-    image: yois4101/cats_gateway:latest
+    image: yois4101/kittygram_gateway:latest
     volumes:
       - static:/etc/nginx/html/static
       - media:/etc/nginx/html/media
