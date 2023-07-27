@@ -3,6 +3,7 @@ version: '3'
 volumes:
   cats_pg_data:
   static:
+  media:
 
 services:
   db:
@@ -17,8 +18,8 @@ services:
     container_name: cats_backend
     image: yois4101/cats_backend:latest
     volumes:
-      - static:/app//backend_static
-      - static:/app/media/
+      - static:/app/static
+      - media:/app/media
     env_file: .env
     depends_on:
       - db
@@ -31,14 +32,17 @@ services:
   frontend:
     container_name: cats_frontend
     image: yois4101/cats_frontend:latest
-    command: cp -r /app/build/. /static/
+    command: cp -r /app/build/. /frontend_static/
     volumes:
-      - static:/static
+      - static:/frontend_static
   
   nginx:
     container_name: cats_gateway
     image: yois4101/cats_gateway:latest
     volumes:
-      - static:/static
+      - static:/etc/nginx/html/static
+      - media:/etc/nginx/html/media
     ports:
       - 9000:80
+    depends_on:
+      - backend
